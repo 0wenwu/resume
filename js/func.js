@@ -190,7 +190,7 @@ $(document).ready(function() {
 	/******************************************************
 		进度条事件
 	*******************************************************/
-	$('.process').animate({right: "80%"}, 1000);
+	$('.process').animate({right: "20%"}, 1000);
 
 	$(window).load(function() {
 		/* Act on the event */
