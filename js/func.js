@@ -178,27 +178,41 @@ $(document).ready(function() {
 		var enterID = $(this).index();		
 		img.eq(enterID).removeClass('active');
 	});
-
-	/******************************************************
-		滚动条监听事件
-	*******************************************************/
-	$("body,html").scroll(function(event) {
-		/* Act on the event */
-		
-	});
+	
 
 	/******************************************************
 		进度条事件
 	*******************************************************/
-	$('.process').animate({right: "20%"}, 1000);
+	var timeOutID;
+	$('.process').animate({right: "20%"}, 1000, function(){
+		//为防止页面加载失败之后的不能看到页面的情况，10000mills认为加载失败
+		timeOutID = setTimeout(showPage,10000);
+	});
 
 	$(window).load(function() {
 		/* Act on the event */
-		$('.process').animate({right: 0}, 200).promise().done(function(){
-		$('.wait').fadeOut();
-		$(document.body).css('overflow', 'auto');
-	});
+		//页面加载成功之后清除timeout，防止反复调用
+		clearTimeout(timeOutID);
+		showPage();
 	});
 
+	//********************显示主页面函数******************
+	function showPage() {
+		$('.process').animate({right: 0}, 200).promise().done(function(){
+			$('.loading').hide();
+			$('.wait h1').hide();
+			$('.slideUp').animate({height: 0}, 1000, function() {
+				/* stuff to do after animation is complete */
+				$('.wait').hide();
+				$(document.body).css('overflow', 'auto');
+			});
+
+			$('.slideDown').animate({height: 0}, 1000, function() {
+				/* stuff to do after animation is complete */
+				$('.wait').hide();
+				$(document.body).css('overflow', 'auto');
+			});
+		});
+	}
 	
 });
